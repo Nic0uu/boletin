@@ -1,0 +1,380 @@
+/* =========================================================
+   Menú EEST N°1 — Azul marino · Naranja · Blanco
+   ========================================================= */
+
+:root {
+  /* Tokens de color */
+  --navy-900: #0a1a3a;
+  --navy-800: #10264f;
+  --navy-700: #16325f;
+  --navy-600: #1e3a6f;
+  --navy-500: #2a4d8a;
+  --orange: #f26c22;
+  --orange-hover: #d85a18;
+  --orange-soft: #fff0e6;
+  --white: #ffffff;
+  --gray-100: #f5f7fa;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+
+  /* Tipografía */
+  --font-display: "Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Espaciado y redondeo */
+  --radius: 0.75rem;
+  --shadow-card: 0 24px 60px -28px rgba(10, 26, 58, 0.35);
+  --shadow-soft: 0 2px 10px -4px rgba(10, 26, 58, 0.18);
+}
+
+/* Reset mínimo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-600) 55%, var(--navy-500) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decoración de fondo (grid sutil) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Círculos decorativos */
+body::after {
+  content: "";
+  position: fixed;
+  right: -10vw;
+  top: -10vw;
+  width: 45vw;
+  height: 45vw;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 108, 34, 0.25);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+header {
+  width: 100%;
+  max-width: 920px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+header a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--orange-soft);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius);
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+header a:hover {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--white);
+}
+
+/* Tarjeta principal */
+main {
+  width: 100%;
+  max-width: 920px;
+  background: var(--gray-100);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  z-index: 1;
+}
+
+/* Indicador naranja superior */
+main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  right: 2rem;
+  height: 4px;
+  background: var(--orange);
+  border-radius: 0 0 4px 4px;
+}
+
+main h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin-bottom: 1.25rem;
+}
+
+/* Cards de materias — estilo Google Classroom */
+ul.cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+ul.cards li {
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+ul.cards li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(10, 26, 58, 0.25);
+}
+
+ul.cards li a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Banda de color superior (color definido por materia vía --card-color) */
+ul.cards .card-header {
+  position: relative;
+  min-height: 100px;
+  padding: 16px;
+  background: var(--card-color, var(--navy-600));
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Icono decorativo del tema (watermark) */
+ul.cards .card-header::before {
+  content: var(--card-icon, "\f02d");
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 10px;
+  bottom: -6px;
+  font-size: 4rem;
+  color: var(--white);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+ul.cards .card-nombre {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--white);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  line-height: 1.3;
+  max-width: 75%;
+}
+
+ul.cards .card-menu {
+  position: relative;
+  color: var(--white);
+  font-size: 0.95rem;
+  opacity: 0.8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.18s ease, opacity 0.18s ease;
+}
+
+ul.cards .card-menu:hover {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Paleta + icono según la materia (custom props heredadas) */
+/* Lengua / idiomas → pencil */
+ul.cards li[data-materia*="leng" i],
+ul.cards li[data-materia*="idiom" i],
+ul.cards li[data-materia*="ingl" i],
+ul.cards li[data-materia*="espa" i],
+ul.cards li[data-materia*="liter" i] {
+  --card-color: #d93025;
+  --card-icon: "\f303";
+}
+
+/* Ciencias naturales → flask */
+ul.cards li[data-materia*="fís" i],
+ul.cards li[data-materia*="fis" i],
+ul.cards li[data-materia*="quí" i],
+ul.cards li[data-materia*="qui" i],
+ul.cards li[data-materia*="bio" i],
+ul.cards li[data-materia*="cienc" i],
+ul.cards li[data-materia*="natur" i] {
+  --card-color: #188038;
+  --card-icon: "\f0c3";
+}
+
+/* Sociales / historia / geografía → globe */
+ul.cards li[data-materia*="hist" i],
+ul.cards li[data-materia*="social" i],
+ul.cards li[data-materia*="geog" i],
+ul.cards li[data-materia*="ciud" i] {
+  --card-color: #f29900;
+  --card-icon: "\f0ac";
+}
+
+/* Matemática → calculator */
+ul.cards li[data-materia*="mat" i],
+ul.cards li[data-materia*="álg" i],
+ul.cards li[data-materia*="alg" i],
+ul.cards li[data-materia*="geom" i],
+ul.cards li[data-materia*="calc" i] {
+  --card-color: #1a73e8;
+  --card-icon: "\f1ec";
+}
+
+/* Informática / tecnología → laptop-code */
+ul.cards li[data-materia*="inform" i],
+ul.cards li[data-materia*="comput" i],
+ul.cards li[data-materia*="progr" i],
+ul.cards li[data-materia*="sistem" i],
+ul.cards li[data-materia*="tecn" i],
+ul.cards li[data-materia*="robo" i] {
+  --card-color: #9334e6;
+  --card-icon: "\f5fc";
+}
+
+/* Arte / música / diseño → palette */
+ul.cards li[data-materia*="arte" i],
+ul.cards li[data-materia*="artíst" i],
+ul.cards li[data-materia*="artist" i],
+ul.cards li[data-materia*="dibuj" i],
+ul.cards li[data-materia*="plást" i],
+ul.cards li[data-materia*="plast" i],
+ul.cards li[data-materia*="mús" i],
+ul.cards li[data-materia*="mus" i],
+ul.cards li[data-materia*="diseñ" i],
+ul.cards li[data-materia*="disen" i] {
+  --card-color: #d81b60;
+  --card-icon: "\f53f";
+}
+
+/* Talleres técnicos → wrench */
+ul.cards li[data-materia*="taller" i],
+ul.cards li[data-materia*="electr" i],
+ul.cards li[data-materia*="mecán" i],
+ul.cards li[data-materia*="mecan" i],
+ul.cards li[data-materia*="solda" i],
+ul.cards li[data-materia*="instal" i],
+ul.cards li[data-materia*="construc" i] {
+  --card-color: #5f6368;
+  --card-icon: "\f0ad";
+}
+
+/* Educación física → futbol (va al final: gana en solapamientos) */
+ul.cards li[data-materia*="educ" i],
+ul.cards li[data-materia*="deport" i],
+ul.cards li[data-materia*="gimn" i] {
+  --card-color: #007b83;
+  --card-icon: "\f1e3";
+}
+
+/* Pie blanco de la card */
+ul.cards .card-body {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 3px solid var(--card-color, transparent);
+}
+
+ul.cards .card-curso {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+
+ul.cards li:hover .card-curso {
+  color: var(--orange-hover);
+}
+
+/* Mensaje cuando no hay materias */
+main p {
+  text-align: center;
+  color: var(--gray-700);
+  padding: 1rem 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  main {
+    padding: 1.5rem;
+    border-radius: var(--radius);
+  }
+
+  ul.cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

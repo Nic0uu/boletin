@@ -1,0 +1,634 @@
+/* =========================================================
+   Notas EEST N°1 — Azul marino · Naranja · Blanco
+   Tabla directa sobre el gradiente (efecto vidrio)
+   ========================================================= */
+
+:root {
+  /* Tokens de color (compartidos con menu.css / index.css) */
+  --navy-900: #0a1a3a;
+  --navy-800: #10264f;
+  --navy-700: #16325f;
+  --navy-600: #1e3a6f;
+  --navy-500: #2a4d8a;
+  --orange: #f26c22;
+  --orange-hover: #d85a18;
+  --orange-soft: #fff0e6;
+  --white: #ffffff;
+  --gray-100: #f5f7fa;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --success: #16a34a;
+  --error: #dc2626;
+  --focus-ring: 0 0 0 4px rgba(242, 108, 34, 0.28);
+
+  /* Tipografía */
+  --font-display: "Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Espaciado y redondeo */
+  --radius: 0.75rem;
+  --shadow-soft: 0 2px 10px -4px rgba(10, 26, 58, 0.18);
+
+  /* Tokens vidrio (propios de notas) */
+  --glass-bg: rgba(255, 255, 255, 0.14);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --row-zebra: rgba(255, 255, 255, 0.05);
+  --row-hover: rgba(255, 255, 255, 0.1);
+  --thead-bg: rgba(10, 26, 58, 0.92);
+}
+
+/* Reset mínimo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  font-family: var(--font-body);
+  color: var(--white);
+  background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-600) 55%, var(--navy-500) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decoración de fondo (grid sutil) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Círculos decorativos */
+body::after {
+  content: "";
+  position: fixed;
+  right: -10vw;
+  top: -10vw;
+  width: 45vw;
+  height: 45vw;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 108, 34, 0.25);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+header {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+header h1 {
+  position: relative;
+  padding-bottom: 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Línea decorativa naranja bajo el título */
+header h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: clamp(48px, 14vw, 64px);
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange) 0%, rgba(242, 108, 34, 0) 100%);
+}
+
+/* Enlace "Volver" (pill translúcido) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-actions .btn-guardar {
+  font-size: 0.9rem;
+}
+
+header a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.5rem 1.15rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+header a:hover {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--white);
+}
+
+header a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Contenido principal: la tabla va directa sobre el gradiente */
+main {
+  width: 100%;
+  max-width: 1500px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Alerta de éxito translúcida */
+.alert-success {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #d1fae5;
+  background: rgba(22, 163, 74, 0.22);
+  border: 1px solid rgba(22, 163, 74, 0.45);
+  animation: fade-up 0.45s ease both;
+}
+
+.alert-success::before {
+  content: "\2713";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+  background: var(--success);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenedor de la tabla (efecto vidrio) */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: calc(var(--radius) + 4px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Scrollbar de la tabla (webkit) */
+.table-wrap::-webkit-scrollbar {
+  height: 10px;
+}
+.table-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+.table-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+}
+
+/* Cabecera */
+thead th {
+  padding: 0.9rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.92);
+  background: var(--thead-bg);
+  border-bottom: 2px solid var(--orange);
+}
+
+/* Primera columna de la cabecera: fija a la izquierda */
+thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Separadores de grupo de columnas (cabecera) */
+thead th:nth-child(3),
+thead th:nth-child(6),
+thead th:nth-child(8) {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Cuerpo */
+tbody th[scope="row"],
+tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+tbody tr:nth-child(even) {
+  background: var(--row-zebra);
+}
+tbody tr:hover,
+tbody tr:focus-within {
+  background: var(--row-hover);
+  box-shadow: inset 3px 0 0 var(--orange);
+}
+
+/* La columna Alumno (sticky) tapa el borde izquierdo de la fila,
+   por eso la barra naranja del hover se refleja en la primera celda visible */
+tbody tr:hover td:nth-child(2),
+tbody tr:focus-within td:nth-child(2) {
+  box-shadow: inset 3px 0 0 var(--orange);
+}
+
+/* Columna Alumno: fija a la izquierda */
+tbody th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  font-weight: 600;
+  color: var(--white);
+  white-space: nowrap;
+  background: rgba(10, 26, 58, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 12px 0 16px -8px rgba(0, 0, 0, 0.35);
+}
+
+/* Separadores de grupo de columnas (cuerpo) */
+tbody td:nth-child(3),
+tbody td:nth-child(6),
+tbody td:nth-child(8) {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Columna del botón: fija a la derecha */
+thead th:last-child,
+tbody td:last-child {
+  position: sticky;
+  right: 0;
+  z-index: 3;
+  padding-left: 1.25rem;
+  text-align: right;
+  background: rgba(10, 26, 58, 0.95);
+  box-shadow: -12px 0 16px -8px rgba(0, 0, 0, 0.35);
+}
+
+/* Columna NOTA FINAL: reserva espacio para que el botón sticky
+   nunca tape el campo al scrollear en escritorio */
+@media (min-width: 769px) {
+  thead th:nth-child(8),
+  tbody td:nth-child(8) {
+    padding-right: 8rem;
+  }
+}
+
+/* Campos de formulario translúcidos */
+.form-select,
+.form-control {
+  width: 100%;
+  min-width: 104px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--white);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--radius) - 2px);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.form-control {
+  text-align: center;
+}
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.75rem;
+  cursor: pointer;
+}
+.form-select option {
+  color: var(--gray-900);
+  background: var(--white);
+}
+.form-select::placeholder,
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+.form-select:hover,
+.form-control:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.form-select:focus,
+.form-control:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: var(--focus-ring);
+}
+
+/* Estado inválido (tras interacción del usuario) */
+.form-select:user-invalid,
+.form-control:user-invalid {
+  border-color: rgba(220, 38, 38, 0.75);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+}
+
+/* Ocultar spinners de los campos numéricos */
+.form-control::-webkit-outer-spin-button,
+.form-control::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.form-control[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Botón Guardar */
+.btn-guardar {
+  padding: 0.55rem 1.1rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--orange);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+.btn-guardar:hover {
+  background: var(--orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -12px rgba(10, 26, 58, 0.6);
+}
+.btn-guardar:active {
+  transform: translateY(0);
+}
+.btn-guardar:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(242, 108, 34, 0.35);
+}
+
+/* Oculto visualmente, visible para lectores de pantalla */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Selección de texto */
+::selection {
+  background: rgba(242, 108, 34, 0.45);
+  color: var(--white);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  body {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+  }
+  thead th {
+    padding: 0.7rem 0.6rem;
+    font-size: 0.72rem;
+  }
+  tbody th[scope="row"],
+  tbody td {
+    padding: 0.55rem 0.6rem;
+  }
+  .form-select,
+  .form-control {
+    min-width: 78px;
+    padding: 0.5rem 0.55rem;
+    font-size: 0.8rem;
+  }
+  .form-select {
+    padding-right: 1.7rem;
+    background-position: right 0.45rem center;
+  }
+  .btn-guardar {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  /* Sin columnas fijas: evita que se pisen sobre los inputs */
+  thead th:first-child,
+  tbody th[scope="row"],
+  thead th:last-child,
+  tbody td:last-child {
+    position: static;
+    box-shadow: none;
+    border-right: none;
+  }
+  tbody th[scope="row"],
+  tbody td:last-child {
+    background: none;
+  }
+}
+
+/* Vista tarjetas en móvil: una card por alumno */
+@media (max-width: 600px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .table-wrap {
+    overflow: visible;
+    border: none;
+    background: none;
+    box-shadow: none;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  tbody tr {
+    display: block;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: calc(var(--radius) + 4px);
+  }
+
+  tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  tbody tr:hover,
+  tbody tr:focus-within {
+    box-shadow: none;
+  }
+
+  tbody th[scope="row"] {
+    display: block;
+    padding: 0 0 0.85rem;
+    margin-bottom: 0.85rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    white-space: normal;
+  }
+
+  tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.35rem 0;
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  tbody td .form-select,
+  tbody td .form-control {
+    width: 55%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  tbody td[data-label="Guardar"] {
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  tbody td[data-label="Guardar"] .btn-guardar {
+    width: 100%;
+    padding: 0.7rem;
+  }
+
+  tbody td[data-label="Guardar"]::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    justify-content: center;
+    text-align: center;
+  }
+  header h1 {
+    font-size: clamp(1.15rem, 6vw, 1.4rem);
+  }
+  header h1::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .alert-success {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.82rem;
+  }
+}
+
+/* Reducir movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
