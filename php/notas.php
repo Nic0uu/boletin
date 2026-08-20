@@ -231,13 +231,11 @@ $curso_nombre = $stmtCurso->fetchColumn();
             add('guardar_todo', '1');
             add('id_materia', filas[0].querySelector('input[name="id_materia"]').value);
             add('curso', filas[0].querySelector('input[name="curso"]').value);
-            var campos = ['1inf', '1cua', '2inf', '2cua', 'intdic', 'intfebmar', 'nota_final'];
             filas.forEach(function (f) {
                 var id = f.querySelector('input[name="id_alumno"]').value;
-                campos.forEach(function (c) {
-                    var el = f.querySelector('[name="' + c + '"]');
-                    if (el) {
-                        add(c + '[' + id + ']', el.value);
+                document.querySelectorAll('[form="f' + id + '"]').forEach(function (el) {
+                    if (el.name && el.tagName !== 'BUTTON') {
+                        add(el.name + '[' + id + ']', el.value);
                     }
                 });
             });
