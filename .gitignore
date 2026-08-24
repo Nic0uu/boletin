@@ -1,3 +1,2 @@
-logs/*.log
-php/logs/*.log
-*.log
+# Log de accesos (contiene IPs, no versionar)
+php/logs/accesos.log

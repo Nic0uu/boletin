@@ -1,0 +1,1081 @@
+/* =========================================================
+   Panel de administración EEST N°1 — Azul marino · Naranja · Blanco
+   ========================================================= */
+
+/* ====== Reset mínimo ====== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* ====== Tokens de diseño ====== */
+
+:root {
+  /* Colores navy */
+  --navy-900: #0a1a3a;
+  --navy-800: #10264f;
+  --navy-700: #16325f;
+  --navy-600: #1e3a6f;
+  --navy-500: #2a4d8a;
+
+  /* Naranja institucional */
+  --orange: #f26c22;
+  --orange-hover: #d85a18;
+  --orange-soft: #fff0e6;
+
+  --white: #ffffff;
+
+  /* Grises */
+  --gray-100: #f5f7fa;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+
+  /* Semánticos */
+  --success: #16a34a;
+  --success-bg: #f0fdf4;
+  --error: #dc2626;
+  --error-bg: #fef2f2;
+
+  /* Anillo de foco */
+  --focus-ring: 0 0 0 4px rgba(242, 108, 34, 0.28);
+
+  /* Tipografía */
+  --font-display: "Manrope", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Geometría */
+  --radius: 0.75rem;
+  --radius-lg: 1.15rem;
+  --shadow-card: 0 24px 60px -28px rgba(10, 26, 58, 0.35);
+  --shadow-soft: 0 2px 10px -4px rgba(10, 26, 58, 0.18);
+
+  /* Línea divisoria suave (derivada de --gray-300) */
+  --line: rgba(209, 211, 219, 0.55);
+}
+
+/* ====== Base ====== */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1.5rem 3rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-600) 55%, var(--navy-500) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decoración de fondo (grid sutil) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Círculo decorativo naranja translúcido */
+body::after {
+  content: "";
+  position: fixed;
+  right: -10vw;
+  top: -10vw;
+  width: 45vw;
+  height: 45vw;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 108, 34, 0.25);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ====== Encabezado (nombre del usuario) ====== */
+
+header {
+  width: 100%;
+  max-width: 960px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.25rem 1.1rem;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Link "cerrar sesion" (chip discreto; sirve tanto en header como en main) */
+header a,
+main > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+  padding: 0.45rem 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  text-decoration: none;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 999px;
+  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+header a {
+  margin-bottom: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+header a:hover,
+main > a:hover {
+  color: var(--error);
+  background: var(--error-bg);
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+header a:focus-visible,
+main > a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ====== Contenedor principal ====== */
+
+main {
+  width: 100%;
+  max-width: 960px;
+  background: var(--white);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  z-index: 1;
+  padding: 2.25rem 2.25rem 2.75rem;
+  animation: fade-up 0.5s ease both;
+}
+
+/* Barra naranja superior */
+main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--orange);
+  z-index: 2;
+}
+
+/* ====== Títulos de sección ====== */
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+  border-left: 4px solid var(--orange);
+  padding-left: 0.75rem;
+  margin: 2rem 0 1.25rem;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy-800);
+  margin: 0 0 0.9rem;
+}
+
+/* El segundo h2 de la sección materias ("Crear materia") respira más arriba */
+.materia > h2:not(:first-child) {
+  margin-top: 2rem;
+}
+
+/* ====== Secciones (materias, alumno, usuario) ====== */
+
+.materia,
+.crear-alumno,
+.crear-usuario {
+  margin-bottom: 2.5rem;
+}
+
+.crear-alumno form,
+.crear-usuario form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: 440px;
+}
+
+/* ====== Alertas ====== */
+
+.alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  max-width: 480px;
+  margin: 0 0 1.5rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  animation: fade-up 0.4s ease both;
+}
+
+.alerta-ok {
+  color: #166534;
+  background: var(--success-bg);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.alerta-error {
+  color: var(--error);
+  background: var(--error-bg);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+}
+
+/* ====== Barra de filtros ====== */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1.25rem;
+}
+
+.filtros input[type="text"],
+.filtros select {
+  padding: 0.6rem 0.85rem;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 0.6rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.filtros input[type="text"] {
+  flex: 1 1 200px;
+  min-width: 170px;
+}
+
+.filtros input[type="text"]::placeholder {
+  color: var(--gray-500);
+}
+
+/* Chevron propio para los selects del sistema */
+.filtros select,
+.crear-alumno select,
+.crear-usuario select,
+.modal select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.4rem;
+  cursor: pointer;
+}
+
+.filtros input[type="text"]:hover,
+.filtros select:hover {
+  border-color: var(--navy-500);
+}
+
+.filtros input[type="text"]:focus,
+.filtros select:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: var(--focus-ring);
+}
+
+.btn-filtrar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--orange);
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-filtrar:hover {
+  background: var(--orange-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -12px rgba(10, 26, 58, 0.5);
+}
+
+.btn-filtrar:active {
+  transform: translateY(0);
+}
+
+.btn-filtrar:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn-limpiar {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy-700);
+  text-decoration: none;
+  border-radius: 0.6rem;
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.btn-limpiar:hover {
+  color: var(--orange-hover);
+  background: var(--orange-soft);
+}
+
+.btn-limpiar:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.total-materias {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+/* ====== Tabla de materias ====== */
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 540px;
+}
+
+th,
+td {
+  padding: 0.65rem 0.95rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+thead th {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--navy-900);
+  background: var(--gray-100);
+  border-bottom: 2px solid var(--orange);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background-color 0.18s ease;
+}
+
+tbody tr:hover {
+  background: var(--gray-100);
+}
+
+td a {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+td a:hover {
+  color: var(--orange-hover);
+}
+
+/* Fila vacía ("No se encontraron materias.") */
+td[colspan] {
+  text-align: center;
+  padding: 1.4rem 1rem;
+  color: var(--gray-500);
+  font-style: italic;
+}
+
+/* ====== Paginación ====== */
+
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.paginacion a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.5rem;
+  color: var(--navy-700);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.paginacion a:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+  background: var(--orange-soft);
+}
+
+.paginacion a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.pag-actual {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  background: var(--orange);
+  color: var(--white);
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ====== Botón editar materia ====== */
+
+.btn-editar-materia {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.45rem;
+  color: var(--orange);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.btn-editar-materia:hover {
+  background: var(--orange-soft);
+  color: var(--orange-hover);
+}
+
+.btn-editar-materia:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ====== Formularios: campos compartidos ====== */
+
+.crear-alumno input[type="text"],
+.crear-alumno input[type="number"],
+.crear-usuario input[type="text"],
+.crear-usuario input[type="password"],
+.modal input[type="text"] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.crear-alumno input::placeholder,
+.crear-usuario input::placeholder,
+.modal input[type="text"]::placeholder,
+.sb-input::placeholder {
+  color: var(--gray-500);
+}
+
+.crear-alumno input:hover,
+.crear-usuario input:hover,
+.crear-alumno select:hover,
+.crear-usuario select:hover,
+.modal input[type="text"]:hover,
+.modal select:hover,
+.sb-toggle:hover {
+  border-color: var(--navy-500);
+}
+
+.crear-alumno input:focus,
+.crear-usuario input:focus,
+.crear-alumno select:focus,
+.crear-usuario select:focus,
+.modal input[type="text"]:focus,
+.modal select:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: var(--focus-ring);
+}
+
+/* Estado de error accesible (inputs con placeholder, como en acceso.css) */
+.crear-alumno input:invalid:not(:placeholder-shown),
+.crear-usuario input:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.16);
+  background-color: var(--error-bg);
+}
+
+.crear-alumno select,
+.crear-usuario select,
+.modal select {
+  width: 100%;
+  padding: 0.85rem 2.4rem 0.85rem 1rem;
+  font-size: 0.95rem;
+  color: var(--gray-900);
+  background-color: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+optgroup {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+/* Botón principal naranja full-width (estilo .btn-submit) */
+.crear-alumno button[type="submit"],
+.crear-usuario button[type="submit"],
+.modal button[type="submit"] {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  padding: 0.95rem 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--orange);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.crear-alumno button[type="submit"]:hover,
+.crear-usuario button[type="submit"]:hover,
+.modal button[type="submit"]:hover {
+  background: var(--orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -16px rgba(10, 26, 58, 0.5);
+}
+
+.crear-alumno button[type="submit"]:active,
+.crear-usuario button[type="submit"]:active,
+.modal button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.crear-alumno button[type="submit"]:focus-visible,
+.crear-usuario button[type="submit"]:focus-visible,
+.modal button[type="submit"]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ====== Modal de edición de materia ====== */
+
+.modal-overlay {
+  display: none; /* oculto por defecto; se abre con .abierto */
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 26, 58, 0.55);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-overlay.abierto {
+  display: flex;
+  animation: fade-in 0.18s ease both;
+}
+
+.modal {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.9rem;
+  position: relative;
+  box-shadow: var(--shadow-card);
+  animation: fade-up 0.28s ease both;
+}
+
+/* Barra naranja superior */
+.modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--orange);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Todo el contenido del modal respeta border-box */
+.modal,
+.modal * {
+  box-sizing: border-box;
+}
+
+.modal h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+  margin: 0 2rem 1.25rem 0;
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.modal-cerrar:hover {
+  background: var(--gray-100);
+  color: var(--navy-900);
+}
+
+.modal-cerrar:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-top: 0.55rem;
+}
+
+.modal button[type="submit"] {
+  margin-top: 1.25rem;
+}
+
+/* ====== Select con búsqueda (profesor del modal) ====== */
+
+.select-buscador {
+  position: relative;
+}
+
+/* El botón toggle simula ser un input */
+.sb-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  text-align: left;
+  color: var(--gray-900);
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.select-buscador.abierto .sb-toggle,
+.sb-toggle:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: var(--focus-ring);
+}
+
+.sb-toggle i {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  transition: transform 0.18s ease;
+}
+
+.select-buscador.abierto .sb-toggle i {
+  transform: rotate(180deg);
+}
+
+.sb-valor {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sb-valor.placeholder {
+  color: var(--gray-500);
+}
+
+/* El panel abre HACIA ARRIBA (el campo está al final del modal) */
+.sb-panel {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 0.6rem;
+  box-shadow: 0 12px 28px -12px rgba(10, 26, 58, 0.35);
+  z-index: 60;
+  overflow: hidden;
+}
+
+.select-buscador.abierto .sb-panel {
+  display: block;
+  animation: fade-in 0.15s ease both;
+}
+
+/* Buscador interno del panel */
+.sb-buscar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.18s ease;
+}
+
+.sb-buscar:focus-within {
+  background: var(--gray-100);
+}
+
+.sb-buscar i {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+.sb-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: transparent;
+}
+
+/* Listado de opciones */
+.sb-opciones {
+  max-height: 200px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sb-opcion {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  color: var(--gray-900);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.sb-opcion:hover {
+  background: var(--orange-soft);
+  color: var(--orange-hover);
+}
+
+.sb-opcion.selected {
+  background: var(--orange-soft);
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* Mensaje "Sin resultados" */
+.sb-vacio {
+  display: none;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.88rem;
+  color: var(--gray-500);
+}
+
+.sb-vacio.visible {
+  display: block;
+}
+
+/* ====== Responsive: tablets (≤ 768px) ====== */
+
+@media (max-width: 768px) {
+  body {
+    padding: 1.25rem 1rem 2.5rem;
+  }
+
+  header {
+    max-width: 100%;
+    padding-bottom: 0.9rem;
+  }
+
+  main {
+    width: 100%;
+    padding: 1.75rem 1.4rem 2.1rem;
+    border-radius: var(--radius);
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-top: 1.6rem;
+  }
+
+  /* Filtros apilados: campos full-width y Filtrar + Limpiar en fila */
+  .filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .filtros input[type="text"],
+  .filtros select {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .btn-filtrar {
+    grid-column: 1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-limpiar {
+    grid-column: 2;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid var(--gray-300);
+  }
+
+  /* Scroll horizontal de la tabla en pantallas angostas */
+  .table-wrap {
+    overflow-x: auto;
+  }
+}
+
+/* ====== Responsive: móviles (≤ 480px) ====== */
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  /* Header compacto en una sola línea */
+  header {
+    padding: 0 0.15rem 0.8rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  header span,
+  header strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  main > a {
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  main {
+    padding: 1.5rem 1.1rem 1.75rem;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  h2 {
+    font-size: 0.95rem;
+  }
+
+  .alerta {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  /* Campos táctiles cómodos */
+  .filtros input[type="text"],
+  .filtros select {
+    min-height: 44px;
+    padding: 0.65rem 0.9rem;
+    font-size: 16px; /* evita el zoom automático en iOS */
+  }
+
+  .btn-filtrar {
+    min-height: 44px;
+  }
+
+  /* Tipografía y paddings de tabla reducidos */
+  table {
+    font-size: 0.85rem;
+    min-width: 480px;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.65rem;
+  }
+
+  /* Paginación envolvente con targets táctiles */
+  .paginacion {
+    flex-wrap: wrap;
+  }
+
+  .paginacion a,
+  .pag-actual {
+    min-height: 40px;
+    padding: 0.5rem 0.85rem;
+  }
+
+  /* Modal a pantalla casi completa con scroll interno */
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: calc(100vh - 1.5rem);
+    overflow-y: auto;
+    padding: 1.6rem 1.25rem;
+  }
+
+  .modal button[type="submit"] {
+    width: 100%;
+  }
+}
+
+/* ====== Accesibilidad: menos movimiento ====== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

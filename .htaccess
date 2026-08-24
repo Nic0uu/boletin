@@ -1,0 +1,19 @@
+# =========================================
+# Boletín EEST N°1 — Configuración Apache
+# =========================================
+
+# Desactivar listado de directorios
+Options -Indexes
+
+# Bloquear archivos sensibles (dump de BD y logs)
+<FilesMatch "\.(sql|log)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquear acceso directo a la conexión de BD
+<Files "conexion.php">
+    Require all denied
+</Files>
+
+# Ocultar el directorio .git
+RedirectMatch 404 /\.git
